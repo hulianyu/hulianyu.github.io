@@ -365,3 +365,45 @@ table.imgtable, table.imgtable td {
     border: none;
     text-align: left;
 }
+
+
+/* 整体容器：始终占满可用宽度，上限1100px */
+#tlayout {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* 右侧主内容：占满剩余空间，上限840px */
+#layout-content {
+  width: 100%;
+  max-width: 840px;
+  box-sizing: border-box;
+}
+
+/* 移除表格和菜单外层的任何边框 */
+#tlayout,
+#tlayout tr,
+#tlayout td {
+  border: none !important;
+}
+
+/* 把 #layout-menu 本身的背景也去掉，所有灰色都交给 .menu-inner */
+#layout-menu {
+  background: none;
+  border: none !important;
+  padding: 0;  /* 确保不留额外内边距 */
+}
+
+/* 只在内部 .menu-inner 上加灰色背景，且无边框 */
+.menu-inner {
+  background-color: #f9f9f9;
+  border: none;
+  max-height: calc(100vh - 2em);
+  overflow-y: auto;
+  position: sticky;
+  top: 1em;
+  padding: 1em;
+}
+
