@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interpretable Clustering Repository</title>
+    <meta name="description" content="A curated repository of interpretable and explainable clustering literature. From the ACM Computing Surveys 2026 survey paper.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --surface2: #f1f5f9;
+            --surface3: #e2e8f0;
+            --border: #e2e8f0;
+            --border-soft: #edf2f7;
+            --text: #0f172a;
+            --text-muted: #475569;
+            --text-dim: #94a3b8;
+            --heading: #020617;
+
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --accent-light: #eff6ff;
+            --accent-soft: #bfdbfe;
+
+            --green: #059669;
+            --green-light: #ecfdf5;
+            --green-soft: #a7f3d0;
+
+            --orange: #ea580c;
+            --orange-light: #fff7ed;
+            --orange-soft: #fed7aa;
+
+            --purple: #7c3aed;
+            --purple-light: #f5f3ff;
+            --purple-soft: #ddd6fe;
+
+            --in-color: #2563eb;
+            --in-bg: #eff6ff;
+            --post-color: #ea580c;
+            --post-bg: #fff7ed;
+
+            --method-bg: #f8fafc;
+            --method-border: #e2e8f0;
+            --method-text: #475569;
+
+            --code-bg: #ecfdf5;
+            --code-border: #a7f3d0;
+            --code-text: #059669;
+
+            --star-bg: #fef3c7;
+            --star-border: #fcd34d;
+            --star-text: #92400e;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .hero {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            padding: 64px 48px 56px;
+            text-align: center;
+        }
+        .hero-inner {
+            max-width: 1180px;
+            margin: 0 auto;
+        }
+        .logo-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            margin-bottom: 20px;
+        }
+        .logo-mark {
+            width: 52px; height: 52px;
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            border: 1px solid #7dd3fc;
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(56,189,248,0.25);
+            flex-shrink: 0;
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.6rem;
+            font-weight: 700;
+            color: var(--heading);
+            line-height: 1.15;
+        }
+        h1 em {
+            font-style: normal;
+            color: var(--accent);
+        }
+        .hero-desc {
+            color: var(--text-muted);
+            font-size: 0.94rem;
+            margin: 14px auto 22px;
+            max-width: 700px;
+            line-height: 1.75;
+        }
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 26px;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 11px;
+            border-radius: 6px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11.5px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: opacity 0.2s, transform 0.15s;
+            letter-spacing: 0.01em;
+            background: var(--surface2);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        .badge:hover { opacity: 0.85; transform: translateY(-1px); }
+        .badge-csur  { background: var(--purple-light); color: #5b21b6; border-color: var(--purple-soft); }
+        .badge-arxiv { background: #fef2f2; color: #991b1b; border-color: #fecaca; }
+        .badge-gh-star { background: var(--star-bg); color: var(--star-text); border-color: var(--star-border); }
+
+        .hero-cta {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 18px;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.18s;
+            text-decoration: none;
+            border: none;
+            font-family: 'IBM Plex Sans', sans-serif;
+            white-space: nowrap;
+        }
+        .btn-primary  { background: var(--accent); color: #ffffff; font-weight: 600; }
+        .btn-primary:hover { background: var(--accent-hover); box-shadow: 0 4px 14px rgba(37,99,235,0.25); transform: translateY(-1px); }
+        .btn-outline  { background: transparent; color: var(--text-muted); border: 1px solid var(--border); }
+        .btn-outline:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+        .btn-ghost    { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border-soft); }
+        .btn-ghost:hover { border-color: var(--border); color: var(--text); }
+
+        .figures {
+            max-width: 1180px;
+            margin: 40px auto;
+            padding: 0 48px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .fig-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+        .fig-card:hover { border-color: var(--accent-soft); }
+        .fig-header {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .fig-card a { display: block; }
+        .fig-card img { width: 100%; display: block; transition: opacity 0.2s; }
+        .fig-card:hover img { opacity: 0.95; }
+
+        .main {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 48px 88px;
+        }
+        .section-eyebrow {
+            font-size: 10.5px;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .toolbar {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 18px;
+            margin-bottom: 16px;
+        }
+        .trow { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+        .trow + .trow {
+            margin-top: 13px;
+            padding-top: 13px;
+            border-top: 1px solid var(--border-soft);
+        }
+        .search-wrap { flex: 1; min-width: 200px; position: relative; }
+        .search-ico {
+            position: absolute;
+            left: 11px; top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-dim);
+            font-size: 13px;
+            pointer-events: none;
+        }
+        .search-input {
+            width: 100%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 12px 8px 34px;
+            color: var(--text);
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .search-input:focus { border-color: var(--accent); }
+        .search-input::placeholder { color: var(--text-dim); }
+
+        .fg { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+        .flabel {
+            font-size: 10.5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-dim);
+            white-space: nowrap;
+            margin-right: 3px;
+        }
+        .pill {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-muted);
+            font-family: 'IBM Plex Sans', sans-serif;
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+        .pill:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+        .pill.on      { background: var(--accent); color: #ffffff; border-color: var(--accent); font-weight: 600; }
+        .pill.on-in   { background: var(--in-bg); border-color: var(--accent-soft); color: var(--in-color); font-weight: 600; }
+        .pill.on-post { background: var(--post-bg); border-color: var(--orange-soft); color: var(--post-color); font-weight: 600; }
+
+        .statsbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .paper-count { font-size: 13px; color: var(--text-muted); }
+        .paper-count strong { color: var(--text); }
+        .sel-count { color: var(--accent); font-weight: 600; }
+        .act-row { display: flex; gap: 8px; align-items: center; }
+        .sm-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 13px;
+            border-radius: 7px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: var(--surface2);
+            color: var(--text-muted);
+            font-family: 'IBM Plex Sans', sans-serif;
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+        .sm-btn:hover { border-color: var(--border); color: var(--text); background: #ffffff; }
+        .sm-btn.accent { background: var(--accent-light); border-color: var(--accent-soft); color: var(--accent); }
+        .sm-btn.accent:hover { background: #dbeafe; }
+
+        .table-wrap {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        table { width: 100%; border-collapse: collapse; }
+        thead { background: var(--surface2); border-bottom: 1px solid var(--border); }
+        th {
+            padding: 12px 15px;
+            text-align: left;
+            font-size: 10.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.09em;
+            color: var(--text-muted);
+            white-space: nowrap;
+            user-select: none;
+        }
+        th.sortable { cursor: pointer; }
+        th.sortable:hover { color: var(--accent); }
+        th.chk { width: 42px; padding: 12px 8px 12px 15px; cursor: default; }
+
+        tbody tr {
+            border-bottom: 1px solid var(--border-soft);
+            transition: background 0.12s;
+            cursor: pointer;
+        }
+        tbody tr:last-child { border-bottom: none; }
+        tbody tr:hover { background: rgba(37,99,235,0.04); }
+        tbody tr.picked { background: rgba(37,99,235,0.07); }
+
+        td { padding: 11px 15px; font-size: 13px; vertical-align: middle; }
+        td.chk { padding: 11px 8px 11px 15px; }
+        input[type="checkbox"].cb {
+            width: 15px; height: 15px;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+        .ptitle {
+            color: var(--text);
+            text-decoration: none;
+            line-height: 1.45;
+            font-weight: 400;
+            display: block;
+            transition: color 0.15s;
+        }
+        .ptitle:hover { color: var(--accent); }
+
+        .ybadge {
+            display: inline-block;
+            background: var(--surface3);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11.5px;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+        .vbadge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .v-top  { background: rgba(37,99,235,0.08); color: #1e3a8a; border: 1px solid rgba(37,99,235,0.18); }
+        .v-jour { background: rgba(5,150,105,0.08); color: #064e3b; border: 1px solid rgba(5,150,105,0.18); }
+        .v-oth  { background: rgba(71,85,105,0.06); color: var(--text-muted); border: 1px solid var(--border); }
+
+        .stag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .stag-in   { background: var(--in-bg); color: var(--in-color); border: 1px solid rgba(37,99,235,0.2); }
+        .stag-post { background: var(--post-bg); color: var(--post-color); border: 1px solid rgba(234,88,12,0.2); }
+
+        .mtag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            color: var(--method-text);
+            background: var(--method-bg);
+            border: 1px solid var(--method-border);
+            white-space: nowrap;
+        }
+        .code-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 9px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+            text-decoration: none;
+            background: var(--code-bg);
+            color: var(--code-text);
+            border: 1px solid var(--code-border);
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+        .code-link:hover { background: #d1fae5; box-shadow: 0 0 8px rgba(5,150,105,0.15); }
+        .nocode { color: var(--text-dim); font-size: 12px; }
+
+        .empty {
+            text-align: center;
+            padding: 64px 20px;
+            color: var(--text-muted);
+        }
+        .empty-ico { font-size: 36px; margin-bottom: 14px; opacity: 0.6; }
+
+        .cite-box {
+            margin-top: 52px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px 28px 24px;
+        }
+        .cite-box h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            color: var(--heading);
+            margin-bottom: 8px;
+        }
+        .cite-box p { font-size: 13px; color: var(--text-muted); margin-bottom: 18px; line-height: 1.7; }
+        .bib-wrap { position: relative; }
+        .bib {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 18px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            color: #334155;
+            line-height: 1.8;
+            white-space: pre;
+            overflow-x: auto;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px; right: 10px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 4px 11px;
+            font-size: 11px;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-family: 'IBM Plex Sans', sans-serif;
+            transition: all 0.15s;
+        }
+        .copy-btn:hover { color: var(--accent); border-color: var(--accent-soft); background: var(--accent-light); }
+
+        footer {
+            border-top: 1px solid var(--border-soft);
+            padding: 22px 48px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+        footer a { color: var(--text-muted); text-decoration: none; }
+        footer a:hover { color: var(--accent); }
+
+        .overlay {
+            display: none;
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.72);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(2px);
+        }
+        .overlay.open { display: flex; }
+        .modal {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 32px;
+            max-width: 480px;
+            width: 92%;
+            position: relative;
+            box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+        }
+        .modal h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            color: var(--heading);
+            margin-bottom: 18px;
+        }
+        .modal-close {
+            position: absolute; top: 16px; right: 18px;
+            background: none; border: none;
+            color: var(--text-muted); font-size: 22px;
+            cursor: pointer; line-height: 1;
+        }
+        .modal-close:hover { color: var(--text); }
+        .info-block {
+            background: var(--accent-light);
+            border: 1px solid var(--accent-soft);
+            border-radius: 9px;
+            padding: 14px 16px;
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.75;
+            margin-bottom: 20px;
+        }
+        .info-block a { color: var(--accent); text-decoration: none; }
+        .info-block a:hover { text-decoration: underline; }
+
+        @media (max-width: 960px) {
+            .hero { padding: 44px 28px 48px; }
+            .figures { grid-template-columns: 1fr; padding: 0 28px; }
+            .main { padding: 0 28px 64px; }
+            .method-col, .stage-col { display: none; }
+            h1 { font-size: 2rem; }
+        }
+        @media (max-width: 640px) {
+            .venue-col, .code-col { display: none; }
+            h1 { font-size: 1.65rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="hero">
+    <div class="hero-inner">
+        <div class="logo-row">
+            <div class="logo-mark">🔬</div>
+            <h1><em>Interpretable</em> Clustering Repository</h1>
+        </div>
+        <p class="hero-desc">
+            A curated repository of literature on <strong style="color:var(--text)">interpretable and explainable clustering</strong>,
+            structured around our comprehensive survey published in <em>ACM Computing Surveys (2026)</em>.
+            Covers in-clustering and post-clustering interpretability, <strong>from decision-tree methods to rule-based, prototype, and many other interpretable clustering models worth exploring and applying.</strong>
+        </p>
+        <div class="badges">
+            <a class="badge badge-csur" href="https://doi.org/10.1145/3789495" target="_blank">📄 CSUR 10.1145/3789495</a>
+            <a class="badge badge-arxiv" href="https://arxiv.org/abs/2409.00743" target="_blank">📋 arXiv:2409.00743</a>
+            <a class="badge badge-gh-star" href="https://github.com/hulianyu/Awesome-Interpretable-Clustering" target="_blank">⭐ Star on GitHub</a>
+        </div>
+        <div class="hero-cta">
+            <a href="https://dl.acm.org/doi/epdf/10.1145/3789495" target="_blank" class="btn btn-primary">📖 Read the Survey Paper</a>
+            <button class="btn btn-ghost" onclick="document.getElementById('submitModal').classList.add('open')">➕ Suggest a Paper</button>
+            <a href="mailto:hly4ml@gmail.com" class="btn btn-outline">✉ Contact Us</a>
+        </div>
+    </div>
+</header>
+
+<div class="figures">
+    <div class="fig-card">
+        <div class="fig-header">🗂️ Taxonomy of Interpretable Clustering</div>
+        <a href="https://raw.githubusercontent.com/hulianyu/Awesome-Interpretable-Clustering/main/taxonomy.jpg" target="_blank">
+            <img src="https://raw.githubusercontent.com/hulianyu/Awesome-Interpretable-Clustering/main/taxonomy.jpg" alt="Taxonomy diagram" loading="lazy">
+        </a>
+    </div>
+    <div class="fig-card">
+        <div class="fig-header">🧩 Interpretable Clustering Models Overview</div>
+        <a href="https://raw.githubusercontent.com/hulianyu/Awesome-Interpretable-Clustering/main/models.jpg" target="_blank">
+            <img src="https://raw.githubusercontent.com/hulianyu/Awesome-Interpretable-Clustering/main/models.jpg" alt="Models overview" loading="lazy">
+        </a>
+    </div>
+</div>
+
+<main class="main">
+    <div class="section-eyebrow">Paper Repository</div>
+
+    <div class="toolbar">
+        <div class="trow">
+            <div class="search-wrap">
+                <span class="search-ico">🔍</span>
+                <input id="searchInput" type="text" class="search-input" placeholder="Search by title, venue…" oninput="render()">
+            </div>
+            <div class="fg">
+                <span class="flabel">Has Code</span>
+                <button id="codeToggle" class="pill" onclick="toggleCode()">Only with Code</button>
+            </div>
+            <div class="fg">
+                <span class="flabel">Sort by</span>
+                <button class="pill on" id="sortYear" onclick="sortBy('year')">Year ↓</button>
+                <button class="pill" id="sortTitle" onclick="sortBy('title')">Title</button>
+            </div>
+        </div>
+        <div class="trow">
+            <div class="fg">
+                <span class="flabel">Stage</span>
+                <button class="pill on" data-stage="all" onclick="setStage('all')">All</button>
+                <button class="pill" data-stage="in" onclick="setStage('in')">In-clustering</button>
+                <button class="pill" data-stage="post" onclick="setStage('post')">Post-clustering</button>
+            </div>
+            <div class="fg">
+                <span class="flabel">Method</span>
+                <button class="pill on" data-method="all" onclick="setMethod('all')">All</button>
+                <button class="pill" data-method="dt" onclick="setMethod('dt')">Decision Tree</button>
+                <button class="pill" data-method="rule" onclick="setMethod('rule')">Rule-based</button>
+                <button class="pill" data-method="other" onclick="setMethod('other')">Other</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="statsbar">
+        <div class="paper-count">
+            Showing <strong id="visibleCount">—</strong> of <strong id="totalCount">—</strong> papers
+            <span id="selInfo" style="display:none"> &mdash; <span class="sel-count" id="selCount">0</span> selected</span>
+        </div>
+        <div class="act-row">
+            <button class="sm-btn" onclick="selectAll()">Select All</button>
+            <button class="sm-btn" onclick="deselectAll()">Deselect All</button>
+            <button class="sm-btn accent" onclick="downloadSelected()">⬇ Download Selected</button>
+        </div>
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th class="chk"><input type="checkbox" class="cb" id="masterCheck" onchange="toggleMaster(this)"></th>
+                    <th class="sortable" onclick="sortBy('title')">Title</th>
+                    <th class="sortable" onclick="sortBy('year')" style="width:68px">Year</th>
+                    <th class="venue-col sortable" onclick="sortBy('venue')" style="width:145px">Venue</th>
+                    <th class="stage-col" style="width:108px">Stage</th>
+                    <th class="method-col" style="width:110px">Method</th>
+                    <th class="code-col" style="width:96px">Code</th>
+                </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+        </table>
+    </div>
+
+    <div class="cite-box" id="citation">
+        <h2>Cite This Work</h2>
+        <p>
+            If this repository or our survey helped your research, please consider citing the paper:
+            <a href="https://dl.acm.org/doi/10.1145/3789495" target="_blank" style="color:var(--accent)">Interpretable Clustering: A Survey</a>
+        </p>
+        <div class="bib-wrap">
+<pre class="bib" id="bibtext">@article{Hu2026xclu,
+  title     = {Interpretable Clustering: A Survey},
+  author    = {Hu, Lianyu and Jiang, Mudi and Dong, Junjie and Liu, Xinying and He, Zengyou},
+  journal   = {ACM Computing Surveys},
+  year      = {2026},
+  volume    = {58},
+  number    = {8},
+  articleno = {215},
+  publisher = {Association for Computing Machinery},
+  doi       = {10.1145/3789495},
+  keywords  = {interpretable clustering, algorithmic interpretability, interpretable machine learning, Explainable AI},
+}</pre>
+            <button class="copy-btn" onclick="copyBib()">Copy</button>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <p>
+        Maintained by <a href="https://hulianyu.xyz/">Lianyu Hu</a>
+        &nbsp;·&nbsp;
+        <a href="https://github.com/hulianyu/Awesome-Interpretable-Clustering" target="_blank">GitHub Repository</a>
+        &nbsp;·&nbsp;
+        <a href="https://dl.acm.org/doi/10.1145/3789495" target="_blank">CSUR 2026</a>
+    </p>
+    <p style="margin-top:6px">
+        Paper list is continuously updated · Contributions welcome via
+        <a href="https://github.com/hulianyu/Awesome-Interpretable-Clustering/issues/new" target="_blank">GitHub Issues</a>
+    </p>
+</footer>
+
+<div class="overlay" id="submitModal">
+    <div class="modal">
+        <button class="modal-close" onclick="document.getElementById('submitModal').classList.remove('open')">×</button>
+        <h3>Suggest a Missing Paper</h3>
+        <div class="info-block">
+            Please open a
+            <a href="https://github.com/hulianyu/Awesome-Interpretable-Clustering/issues/new" target="_blank">GitHub Issue ↗</a>
+            with the following details:
+            <br><br>
+            • <strong style="color:var(--text)">Title</strong> — full paper title<br>
+            • <strong style="color:var(--text)">DOI / URL</strong> — link to the paper<br>
+            • <strong style="color:var(--text)">Venue</strong> — conference or journal name<br>
+            • <strong style="color:var(--text)">Year</strong> — publication year<br>
+            • <strong style="color:var(--text)">Code</strong> — link to code (if available)<br>
+            <br>
+            Alternatively, email
+            <a href="mailto:hly4ml@gmail.com">hly4ml@gmail.com</a>.
+            Submissions are reviewed and approved entries appear in the next update.
+        </div>
+        <a href="https://github.com/hulianyu/Awesome-Interpretable-Clustering/issues/new" target="_blank" class="btn btn-primary" style="width:100%;justify-content:center;font-size:14px;padding:10px;">
+            Open a GitHub Issue →
+        </a>
+    </div>
+</div>
+
+<script>
+    const papers = [
+        { id:1,  title:"Interpretable categorical data clustering via hypothesis testing", url:"https://doi.org/10.1016/j.patcog.2025.111364", year:2025, venue:"Pattern Recognition", stage:"in", method:"dt", code:"https://github.com/hulianyu/SigTree", lang:"MATLAB" },
+        { id:2,  title:"Significance-based decision tree for interpretable categorical data clustering", url:"https://doi.org/10.1016/j.ins.2024.121588", year:2025, venue:"Information Sciences", stage:"in", method:"dt", code:"https://github.com/hulianyu/SigDT", lang:"MATLAB" },
+        { id:3,  title:"Significance-based interpretable sequence clustering", url:"https://doi.org/10.1016/j.ins.2025.121972", year:2025, venue:"Information Sciences", stage:"in", method:"dt", code:"https://github.com/hulianyu/SigISC", lang:"MATLAB" },
+        { id:4,  title:"Interpretable Clustering Ensemble", url:"https://arxiv.org/abs/2506.05877", year:2025, venue:"arXiv", stage:"in", method:"dt", code:null, lang:null },
+        { id:5,  title:"XClusters: Explainability-First Clustering", url:"https://doi.org/10.1609/aaai.v37i7.25963", year:2023, venue:"AAAI", stage:"in", method:"dt", code:null, lang:null },
+        { id:6,  title:"Optimal Interpretable Clustering Using Oblique Decision Trees", url:"https://doi.org/10.1145/3534678.3539361", year:2022, venue:"KDD", stage:"in", method:"dt", code:null, lang:null },
+        { id:7,  title:"Interpretable fuzzy clustering using unsupervised fuzzy decision trees", url:"https://doi.org/10.1016/j.ins.2022.08.077", year:2022, venue:"Information Sciences", stage:"in", method:"dt", code:null, lang:null },
+        { id:8,  title:"Interpretable clustering: an optimization approach", url:"https://doi.org/10.1007/s10994-020-05896-2", year:2020, venue:"Machine Learning", stage:"in", method:"dt", code:"https://github.com/agniorf/ICOT-Example", lang:"Julia" },
+        { id:9,  title:"Clustering nominal data using unsupervised binary decision trees", url:"https://doi.org/10.1016/j.patcog.2017.01.031", year:2017, venue:"Pattern Recognition", stage:"in", method:"dt", code:"http://ghattas.free.fr/cubt.php", lang:"R" },
+        { id:10, title:"On clustering and interpreting with rules by means of mathematical optimization", url:"https://doi.org/10.1016/j.cor.2023.106180", year:2023, venue:"Comp. & Oper. Research", stage:"in", method:"rule", code:null, lang:null },
+        { id:11, title:"Balancing the Tradeoff Between Clustering Value and Interpretability", url:"https://doi.org/10.1145/3375627.3375843", year:2020, venue:"AIES", stage:"in", method:"rule", code:"https://github.com/sandysa/Interpretable_Clustering", lang:"Python" },
+        { id:12, title:"Interpretable Clustering via Multi-Polytope Machines", url:"https://doi.org/10.1609/aaai.v36i7.20693", year:2022, venue:"AAAI", stage:"in", method:"other", code:"https://github.com/conlaw/PolytopeClustering", lang:"Python" },
+        { id:13, title:"Fast and explainable clustering based on sorting", url:"https://doi.org/10.1016/j.patcog.2024.110298", year:2024, venue:"Pattern Recognition", stage:"in", method:"other", code:"https://github.com/nla-group/classix", lang:"Python" },
+        { id:14, title:"PC-X: Profound Clustering via Slow Exemplars", url:"https://proceedings.mlr.press/v234/pan24a.html", year:2024, venue:"CPAL", stage:"in", method:"other", code:"https://github.com/Yuangang-Pan/PC-X", lang:"Python" },
+        { id:15, title:"An Exemplars-Based Approach for Explainable Clustering", url:"https://doi.org/10.1137/1.9781611978032.6", year:2024, venue:"SDM", stage:"in", method:"other", code:null, lang:null },
+        { id:16, title:"Interpretable multi-view clustering", url:"https://doi.org/10.1016/j.patcog.2025.111418", year:2025, venue:"Pattern Recognition", stage:"post", method:"dt", code:null, lang:null },
+        { id:17, title:"Interpretable sequence clustering", url:"https://doi.org/10.1016/j.ins.2024.121453", year:2025, venue:"Information Sciences", stage:"post", method:"dt", code:"https://github.com/jd445/Interpretable-Sequence-Clustering-Tree", lang:"Python" },
+        { id:18, title:"Explaining Kernel Clustering via Decision Trees", url:"https://openreview.net/forum?id=FAGtjl7HOw", year:2024, venue:"ICLR", stage:"post", method:"dt", code:null, lang:null },
+        { id:19, title:"Shallow decision trees for explainable k-means clustering", url:"https://doi.org/10.1016/j.patcog.2022.109239", year:2023, venue:"Pattern Recognition", stage:"post", method:"dt", code:"https://github.com/lmurtinho/ShallowTree", lang:"Python" },
+        { id:20, title:"How to find a good explanation for clustering?", url:"https://doi.org/10.1016/j.artint.2023.103948", year:2023, venue:"Artificial Intelligence", stage:"post", method:"dt", code:null, lang:null },
+        { id:21, title:"Random Cuts are Optimal for Explainable k-Medians", url:"https://proceedings.neurips.cc/paper_files/paper/2023/hash/d3408794e41dd23e34634344d662f5e9-Abstract-Conference.html", year:2023, venue:"NeurIPS", stage:"post", method:"dt", code:null, lang:null },
+        { id:22, title:"Explainable k-means: don't be greedy, plant bigger trees!", url:"https://doi.org/10.1145/3519935.3520056", year:2022, venue:"STOC", stage:"post", method:"dt", code:null, lang:null },
+        { id:23, title:"Almost Tight Approximation Algorithms for Explainable Clustering", url:"https://doi.org/10.1137/1.9781611977073.103", year:2022, venue:"SODA", stage:"post", method:"dt", code:null, lang:null },
+        { id:24, title:"On the price of explainability for some clustering problems", url:"https://proceedings.mlr.press/v139/laber21a", year:2021, venue:"ICML", stage:"post", method:"dt", code:null, lang:null },
+        { id:25, title:"Near-Optimal Algorithms for Explainable k-Medians and k-Means", url:"https://proceedings.mlr.press/v139/makarychev21a", year:2021, venue:"ICML", stage:"post", method:"dt", code:null, lang:null },
+        { id:26, title:"Nearly-Tight and Oblivious Algorithms for Explainable Clustering", url:"https://proceedings.neurips.cc/paper_files/paper/2021/hash/f24ad6f72d6cc4cb51464f2b29ab69d3-Abstract.html", year:2021, venue:"NeurIPS", stage:"post", method:"dt", code:null, lang:null },
+        { id:27, title:"Explainable k-Means and k-Medians Clustering", url:"https://proceedings.mlr.press/v119/moshkovitz20a.html", year:2020, venue:"ICML", stage:"post", method:"dt", code:"https://github.com/navefr/ExKMC", lang:"Python" },
+        { id:28, title:"Explaining clusterings of process instances", url:"https://doi.org/10.1007/s10618-016-0488-4", year:2017, venue:"DMKD", stage:"post", method:"rule", code:null, lang:null },
+        { id:29, title:"Explaining Black-Box Clustering Pipelines with Cluster-Explorer", url:"https://doi.org/10.14778/3718057.3718075", year:2025, venue:"VLDB", stage:"post", method:"rule", code:"https://github.com/analysis-bots/cluster-explorer", lang:"Python" },
+        { id:30, title:"X-clustering beyond contextual representations", url:"https://doi.org/10.1016/j.ins.2025.122291", year:2025, venue:"Information Sciences", stage:"post", method:"other", code:"https://github.com/TianyiHuang2022/XCR", lang:"Python" },
+        { id:31, title:"Explainable community detection", url:"https://doi.org/10.1016/j.chaos.2025.116198", year:2025, venue:"Chaos, Sol. & Fract.", stage:"post", method:"other", code:"https://github.com/xuannnn523/CCTS", lang:"Python" },
+        { id:32, title:"Neural Clustering based Visual Representation Learning", url:"https://doi.org/10.1109/CVPR52733.2024.00546", year:2024, venue:"CVPR", stage:"post", method:"other", code:"https://github.com/guikunchen/FEC", lang:"Python" },
+        { id:33, title:"From Clustering to Cluster Explanations via Neural Networks", url:"https://doi.org/10.1109/TNNLS.2022.3185901", year:2024, venue:"TNNLS", stage:"post", method:"other", code:"https://github.com/jacobkauffmann/neon_demo", lang:"Python" },
+        { id:34, title:"Cluster Explanation via Polyhedral Descriptions", url:"https://proceedings.mlr.press/v202/lawless23a", year:2023, venue:"ICML", stage:"post", method:"other", code:"https://github.com/conlaw/PolyhedralClusterDescription", lang:"Python" },
+        { id:35, title:"Interpreting clusters via prototype optimization", url:"https://doi.org/10.1016/j.omega.2021.102543", year:2022, venue:"Omega", stage:"post", method:"other", code:null, lang:null },
+    ];
+
+    let stageF  = 'all';
+    let methodF = 'all';
+    let codeF   = false;
+    let sortFld = 'year';
+    let sortDir = -1;
+    const sel   = new Set();
+
+    const TOP_VENUES = ['ICML','NeurIPS','ICLR','CVPR','AAAI','KDD','STOC','SODA','VLDB','AIES','SDM','CPAL'];
+    const JOUR_VENUES = ['Pattern Recognition','Information Sciences','Artificial Intelligence','Machine Learning','TNNLS','DMKD','Omega','Comp. & Oper. Research','Chaos'];
+
+    function venueClass(v) {
+        if (TOP_VENUES.some(t => v.includes(t)))  return 'v-top';
+        if (JOUR_VENUES.some(t => v.includes(t))) return 'v-jour';
+        return 'v-oth';
+    }
+
+    function getFiltered() {
+        const q = document.getElementById('searchInput').value.toLowerCase().trim();
+        return papers
+            .filter(p => {
+                if (stageF  !== 'all' && p.stage  !== stageF)  return false;
+                if (methodF !== 'all' && p.method !== methodF)  return false;
+                if (codeF && !p.code) return false;
+                if (q && !p.title.toLowerCase().includes(q) && !p.venue.toLowerCase().includes(q)) return false;
+                return true;
+            })
+            .sort((a, b) => {
+                if (sortFld === 'year')  return sortDir * (b.year - a.year);
+                if (sortFld === 'title') return sortDir * a.title.localeCompare(b.title);
+                if (sortFld === 'venue') return sortDir * a.venue.localeCompare(b.venue);
+                return 0;
+            });
+    }
+
+    const stageNames  = { in:'In-clust.', post:'Post-clust.' };
+    const methodNames = { dt:'Decision Tree', rule:'Rule-based', other:'Other' };
+
+    function render() {
+        const filtered = getFiltered();
+        document.getElementById('visibleCount').textContent = filtered.length;
+        document.getElementById('totalCount').textContent   = papers.length;
+
+        const selVisible = filtered.filter(p => sel.has(p.id));
+        if (sel.size > 0) {
+            document.getElementById('selInfo').style.display  = 'inline';
+            document.getElementById('selCount').textContent   = sel.size;
+        } else {
+            document.getElementById('selInfo').style.display  = 'none';
+        }
+
+        const tbody = document.getElementById('tbody');
+        if (filtered.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="7"><div class="empty"><div class="empty-ico">🔍</div><p>No papers match your current filters.</p></div></td></tr>`;
+        } else {
+            tbody.innerHTML = filtered.map(p => {
+                const isSel = sel.has(p.id);
+                const codeHtml = p.code
+                    ? `<a href="${p.code}" target="_blank" class="code-link" onclick="event.stopPropagation()">💻 ${p.lang}</a>`
+                    : `<span class="nocode">—</span>`;
+                return `<tr class="${isSel ? 'picked' : ''}" onclick="toggleRow(event,${p.id})">
+                    <td class="chk"><input type="checkbox" class="cb" ${isSel?'checked':''} onclick="event.stopPropagation();togglePaper(${p.id})"></td>
+                    <td><a href="${p.url}" target="_blank" class="ptitle" onclick="event.stopPropagation()">${p.title}</a></td>
+                    <td><span class="ybadge">${p.year}</span></td>
+                    <td class="venue-col"><span class="vbadge ${venueClass(p.venue)}">${p.venue}</span></td>
+                    <td class="stage-col"><span class="stag stag-${p.stage}">${stageNames[p.stage]}</span></td>
+                    <td class="method-col"><span class="mtag">${methodNames[p.method]}</span></td>
+                    <td class="code-col">${codeHtml}</td>
+                </tr>`;
+            }).join('');
+        }
+
+        const mc = document.getElementById('masterCheck');
+        const allSel = filtered.length > 0 && filtered.every(p => sel.has(p.id));
+        const anySel = filtered.some(p => sel.has(p.id));
+        mc.checked       = allSel;
+        mc.indeterminate = !allSel && anySel;
+    }
+
+    function toggleRow(e, id) {
+        if (e.target.tagName === 'A' || e.target.tagName === 'INPUT') return;
+        togglePaper(id);
+    }
+    function togglePaper(id) {
+        sel.has(id) ? sel.delete(id) : sel.add(id);
+        render();
+    }
+    function selectAll() {
+        getFiltered().forEach(p => sel.add(p.id));
+        render();
+    }
+    function deselectAll() {
+        sel.clear();
+        render();
+    }
+    function toggleMaster(el) {
+        el.checked ? selectAll() : deselectAll();
+    }
+
+    function downloadSelected() {
+        const list = papers.filter(p => sel.has(p.id));
+        if (!list.length) { alert('Please select at least one paper first.'); return; }
+        const header = `Interpretable Clustering — Selected Papers\nSource: https://hulianyu.github.io/Awesome-Interpretable-Clustering/\nExported: ${new Date().toDateString()}\n\n`;
+        const body   = list.map((p,i) => `[${i+1}] ${p.title}\n    Year: ${p.year}  |  Venue: ${p.venue}  |  Stage: ${p.stage==='in'?'In-clustering':'Post-clustering'}\n    Paper: ${p.url}${p.code?'\n    Code:  '+p.code:''}`).join('\n\n');
+        const blob = new Blob([header + body], { type:'text/plain' });
+        const a    = document.createElement('a');
+        a.href     = URL.createObjectURL(blob);
+        a.download = 'interpretable-clustering-papers.txt';
+        a.click();
+    }
+
+    function setStage(s) {
+        stageF = s;
+        document.querySelectorAll('[data-stage]').forEach(el => {
+            el.classList.remove('on','on-in','on-post');
+            if (el.dataset.stage === s) {
+                if (s === 'in')   el.classList.add('on-in');
+                else if (s === 'post') el.classList.add('on-post');
+                else              el.classList.add('on');
+            }
+        });
+        render();
+    }
+
+    function setMethod(m) {
+        methodF = m;
+        document.querySelectorAll('[data-method]').forEach(el => {
+            el.classList.toggle('on', el.dataset.method === m);
+        });
+        render();
+    }
+
+    function toggleCode() {
+        codeF = !codeF;
+        document.getElementById('codeToggle').classList.toggle('on', codeF);
+        render();
+    }
+
+    function sortBy(field) {
+        if (sortFld === field) { sortDir *= -1; }
+        else { sortFld = field; sortDir = (field === 'year' ? -1 : 1); }
+        ['Year','Title','Venue'].forEach(f => {
+            const el = document.getElementById('sort' + f);
+            if (el) el.classList.remove('on');
+        });
+        const cap = field.charAt(0).toUpperCase() + field.slice(1);
+        const btn = document.getElementById('sort' + cap);
+        if (btn) {
+            btn.classList.add('on');
+            btn.textContent = cap + (sortDir === -1 ? ' ↓' : ' ↑');
+        }
+        render();
+    }
+
+    function copyBib() {
+        const text = document.getElementById('bibtext').innerText.replace(/Copy\s*$/, '').trim();
+        navigator.clipboard.writeText(text).then(() => {
+            const btn = document.querySelector('.copy-btn');
+            btn.textContent = '✓ Copied!';
+            setTimeout(() => btn.textContent = 'Copy', 2200);
+        });
+    }
+
+    document.getElementById('submitModal').addEventListener('click', function(e) {
+        if (e.target === this) this.classList.remove('open');
+    });
+
+    render();
+</script>
+</body>
+</html>
