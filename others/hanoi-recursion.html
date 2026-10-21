@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>把大问题交给小问题 · 汉诺塔与递归</title>
+<style>
+:root{color-scheme:light;--paper:#f5f3ed;--card:#fffefa;--ink:#243b42;--muted:#768583;--line:#dedfd5;--teal:#267b78;--orange:#c56439;--gold:#f3d99a}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,"Segoe UI","Microsoft YaHei",sans-serif}button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.35;cursor:default}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #dc9b65;outline-offset:4px}main{max-width:1320px;margin:auto;padding:32px 38px 28px}.mast{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:24px}.kicker{font-size:11px;letter-spacing:3px;color:var(--teal);font-weight:700}h1{font-size:clamp(25px,3.2vw,40px);font-weight:600;letter-spacing:-1px;margin:10px 0}.intro{color:var(--muted);font-size:13px;line-height:1.8;margin:0}.chapter{text-align:right;border-left:1px solid var(--line);padding-left:22px;white-space:nowrap}.chapter strong{display:block;font:40px Georgia,serif;color:var(--teal)}.chapter span{font-size:11px;color:var(--muted);letter-spacing:2px}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;background:#eaece3;padding:15px 20px;border-radius:12px;margin-bottom:18px}.setting{display:flex;align-items:center;gap:13px;font-size:13px}.setting input{width:135px;accent-color:var(--teal)}.setting output{font-weight:700;font-size:17px;width:16px}.formula{font-size:12px;color:#566f6c}.formula b{font-size:17px;color:var(--teal)}.layout{display:grid;grid-template-columns:minmax(0,1.37fr) minmax(340px,1fr);gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:15px;overflow:hidden}.card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:19px 22px 0}.card-head h2{font-size:15px;margin:0;font-weight:600}.index{font:12px Georgia,serif;color:#8c9e91;margin-right:9px}.pill{font-size:11px;border-radius:20px;padding:5px 10px;color:var(--teal);background:#edf3e9}.board{width:100%;display:block;min-height:240px}.legend{padding:0 22px 18px;font-size:11px;color:var(--muted);display:flex;justify-content:space-between;gap:12px}.call-card{display:flex;flex-direction:column}.stack-wrap{padding:4px 14px 0;flex:1;min-height:260px}.chain{width:100%;height:285px;display:block}.chain-note{font-size:11px;color:var(--muted);padding:0 22px 18px;margin:0;line-height:1.7}.explanation{margin:0 20px 18px;background:#edf3ec;border-left:3px solid var(--teal);padding:14px 16px;border-radius:0 8px 8px 0;min-height:106px}.explanation.base{background:#fff1dc;border-color:var(--orange)}.explanation.return{background:#eeedf4;border-color:#8d7caa}.tag{font-size:10px;font-weight:700;letter-spacing:1px;color:var(--teal)}.base .tag{color:var(--orange)}.return .tag{color:#806f9d}.explanation h3{font-size:16px;margin:6px 0}.explanation p{font-size:12px;line-height:1.85;color:#617370;margin:0}.transport{padding:19px 22px 20px;margin-top:18px}.timeline-label{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:9px}.timeline-label strong{color:var(--ink);font-weight:500}.progress{display:block;width:100%;accent-color:var(--teal);margin:0 0 17px;cursor:pointer}.buttons{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.button-group{display:flex;gap:8px;align-items:center}.btn{border:1px solid var(--line);border-radius:7px;background:var(--card);color:var(--ink);padding:9px 13px;font-size:12px;white-space:nowrap}.btn:hover:not(:disabled){background:#eaf0e7}.btn.primary{background:var(--teal);color:white;border-color:var(--teal);min-width:96px}.btn.primary:hover{background:#206b68}.speed{display:flex;gap:8px;align-items:center;font-size:11px;color:var(--muted)}select{border:1px solid var(--line);border-radius:6px;background:var(--card);padding:7px;color:var(--ink);font-size:12px}.bottom{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}.code{margin:14px 0 20px;font:12px/1.9 Consolas,"Courier New",monospace;overflow-x:auto}.code-line{display:block;padding:2px 22px;white-space:pre;border-left:3px solid transparent}.code-line.active{background:#e5efe5;border-color:var(--teal)}.code-line.base-active{background:#fff0d7;border-color:var(--orange)}.ln{color:#9fa99d;display:inline-block;width:24px;user-select:none}.kw{color:#a46844}.comment{color:#879388;font-size:11px}.breakdown{padding:17px 22px 20px}.step{display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-bottom:1px solid #eceee6;font-size:12px;line-height:1.7}.step:last-of-type{border:0}.step-num{display:grid;place-items:center;width:24px;height:24px;flex-shrink:0;border-radius:50%;background:#e9efe4;color:var(--teal);font-size:11px}.step.current .step-num{background:var(--teal);color:white}.step.current{color:var(--teal);font-weight:600}.step small{display:block;color:var(--muted);font-size:11px;font-weight:400}.base-note{margin-top:12px;padding:12px;background:#fff3df;border-radius:7px;font-size:12px;line-height:1.8;color:#88623e}.base-note strong{color:var(--orange)}.foot{display:flex;justify-content:space-between;gap:15px;font-size:10px;letter-spacing:.5px;color:#8a968c;margin-top:18px;line-height:1.8}.disk.fresh{animation:land .4s ease-out}@keyframes land{from{opacity:.5;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}@media(prefers-reduced-motion:reduce){*{animation:none!important}}@media(max-width:950px){main{padding:24px 20px}.layout{grid-template-columns:1fr 1fr}.buttons{gap:15px}.btn{padding:9px 10px}.chain{height:270px}}@media(max-width:740px){main{padding:22px 14px}.layout,.bottom{grid-template-columns:1fr}.chapter{display:none}.toolbar{padding:14px;gap:12px}.formula{font-size:11px}.card-head{padding:17px 17px 0}.board{min-height:0}.chain{height:270px}.stack-wrap{min-height:0}.transport{padding:16px 14px}.buttons{justify-content:center}.button-group{flex-wrap:wrap;justify-content:center}.foot{flex-direction:column;gap:0}.legend{font-size:10px}.explanation{margin:0 15px 16px}}
+</style>
+</head>
+<body>
+<main>
+<header class="mast"><div><div class="kicker">ALGORITHM ATELIER / 递归实验室</div><h1>把大问题，交给小问题。</h1><p class="intro">用汉诺塔看懂递归：向下拆解，抵达基例，再逐层返回。</p></div><div class="chapter"><strong>01 / ∞</strong><span>HANOI & RECURSION</span></div></header>
+<section class="toolbar" aria-label="演示设置"><label class="setting" for="disk-count">盘子数量 <input type="range" id="disk-count" min="1" max="6" value="3"><output id="count-out" for="disk-count">3</output></label><div class="formula">最少移动次数：2<sup id="power">3</sup> − 1 = <b id="minimum">7</b></div><span class="formula">目标：A → C，借助 B</span></section>
+<div class="layout">
+<section class="card"><div class="card-head"><h2><span class="index">01</span>盘子如何移动</h2><span class="pill" id="move-count">已移动 0 / 7 次</span></div><svg class="board" id="board" viewBox="0 0 650 320" role="img" aria-labelledby="board-title board-description"><title id="board-title">汉诺塔状态</title><desc id="board-description">初始时，全部盘子位于 A 柱。</desc></svg><div class="legend"><span>数字越大，盘子越大</span><span>每次移动一个 · 大盘不能压小盘</span></div><div id="explanation" class="explanation" aria-live="polite" aria-atomic="true"><div class="tag" id="event-tag"></div><h3 id="event-title"></h3><p id="event-text"></p></div></section>
+<section class="card call-card"><div class="card-head"><h2><span class="index">02</span>递归链条 · 当前调用栈</h2><span class="pill" id="depth">深度 0 / 3</span></div><div class="stack-wrap"><svg id="chain" class="chain" viewBox="0 0 460 300" role="img" aria-label="当前递归调用链"></svg></div><p class="chain-note">从上往下：父调用 → 子调用。最下方是当前执行的调用；子调用返回后，父调用从暂停处继续。</p></section>
+</div>
+<section class="card transport" aria-label="播放与进度"><div class="timeline-label"><span><strong id="event-position">事件 0 / 0</strong> · 包含调用、移动和返回</span><span id="progress-percent">0%</span></div><input type="range" class="progress" id="timeline" min="0" max="1" value="0" aria-label="递归执行进度"><div class="buttons"><div class="button-group"><button class="btn" id="reset" title="回到初始状态">↺ 重置</button><button class="btn" id="prev">← 上一步</button><button class="btn primary" id="play" aria-pressed="false">▶ 自动演示</button><button class="btn" id="next">下一步 →</button><button class="btn" id="next-move" title="跳过调用过程，定位到下一次实际移动">下一次移动 ↗</button></div><label class="speed" for="speed">演示速度 <select id="speed"><option value="1800">慢速</option><option value="1000" selected>正常</option><option value="500">快速</option></select></label></div></section>
+<div class="bottom">
+<section class="card"><div class="card-head"><h2><span class="index">03</span>代码执行到哪里</h2><span class="pill">Python 风格伪代码</span></div><pre class="code" aria-label="汉诺塔递归伪代码"><code><span class="code-line" data-line="0"><span class="ln">1</span><span class="kw">def</span> hanoi(n, 起点, 终点, 辅助):</span><span class="code-line" data-line="1"><span class="ln">2</span>    <span class="kw">if</span> n == 1: <span class="comment"># 递归基例</span></span><span class="code-line" data-line="2"><span class="ln">3</span>        move(起点, 终点)</span><span class="code-line" data-line="3"><span class="ln">4</span>        <span class="kw">return</span></span><span class="code-line" data-line="4"><span class="ln">5</span>    hanoi(n-1, 起点, 辅助, 终点)</span><span class="code-line" data-line="5"><span class="ln">6</span>    move(起点, 终点)</span><span class="code-line" data-line="6"><span class="ln">7</span>    hanoi(n-1, 辅助, 终点, 起点)</span><span class="code-line" data-line="7"><span class="ln">8</span>    <span class="kw">return</span></span></code></pre></section>
+<section class="card"><div class="card-head"><h2><span class="index">04</span>拆解当前问题</h2><span class="pill" id="task-label">等待调用</span></div><div class="breakdown"><div class="step" id="step-left"><span class="step-num">1</span><div id="left-text"></div></div><div class="step" id="step-middle"><span class="step-num">2</span><div id="middle-text"></div></div><div class="step" id="step-right"><span class="step-num">3</span><div id="right-text"></div></div><div class="base-note" id="base-note"><strong>递归基例：n = 1。</strong>只剩一个盘子，直接从起点移到终点，不再调用自己。</div></div></section>
+</div>
+<footer class="foot"><span>理解关键：每次递归，n 减少 1；盘子总数并没有减少，子问题只处理其中一部分。</span><span>键盘 ← / → 逐步查看 · 空格 播放 / 暂停</span></footer>
+</main>
+<script>
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id);
+const colors=['#e8b76a','#7caba0','#7499b1','#b294b5','#d08f77','#97a57c'];
+const towersX={A:120,B:325,C:530};
+let count=3,events=[],index=0,playing=false,timer=null;
+function build(n){
+  const state={A:Array.from({length:n},(_,i)=>n-i),B:[],C:[]};
+  const stack=[];let moves=0,serial=0;const result=[];
+  function emit(type,title,text,line,move=null){result.push({type,title,text,line,move,moves,stack:stack.map(f=>({...f})),towers:{A:[...state.A],B:[...state.B],C:[...state.C]}})}
+  emit('ready','先观察目标，再开始拆解',`把 ${n} 个盘子从 A 柱移到 C 柱，B 柱用于暂存。点击“下一步”，查看第一次递归调用。`,-1);
+  function solve(size,from,to,aux){
+    const frame={id:++serial,n:size,from,to,aux,stage:'enter'};stack.push(frame);
+    if(size===1){
+      frame.stage='base';emit('base','抵达基例：只剩一个盘子',`当前任务：${from} → ${to}。n = 1，不需要再分解；下一步直接移动这个盘子。`,1);
+      moveDisk(frame,2);
+      frame.stage='return';emit('return','基例完成，返回上一层',`这个单盘任务已经完成。当前调用即将出栈${stack.length>1?'，父调用将从暂停的位置继续':'，最外层任务也随之完成'}。`,3);
+    }else{
+      emit('call',`进入调用：搬动 ${size} 个盘子`,`${from} 是起点，${to} 是终点，${aux} 是辅助柱。n = ${size} > 1，不能直接搬动整叠盘子，需要拆成三个步骤。`,0);
+      frame.stage='left';emit('split',`先委托子问题：搬走上面的 ${size-1} 个`, `调用 hanoi(${size-1}, ${from}, ${aux}, ${to})，把上面 ${size-1} 个盘子移到 ${aux}。当前调用暂停，等待子问题完成。`,4);
+      solve(size-1,from,aux,to);
+      moveDisk(frame,5);
+      frame.stage='right';emit('split',`再委托子问题：把 ${size-1} 个盘子搬回来`,`调用 hanoi(${size-1}, ${aux}, ${to}, ${from})，把暂存在 ${aux} 的 ${size-1} 个盘子移到 ${to}，叠在刚移动的大盘上。`,6);
+      solve(size-1,aux,to,from);
+      frame.stage='return';emit('return',`${size} 个盘子的任务完成，逐层返回`,`${from} → ${to} 的三个步骤都已完成。${stack.length>1?'当前调用即将出栈，上一层调用恢复执行。':'根调用即将出栈，整个问题求解完成。'}`,7);
+    }
+    stack.pop();
+  }
+  function moveDisk(frame,line){
+    frame.stage='move';const disk=state[frame.from].pop();state[frame.to].push(disk);moves++;
+    emit('move',`第 ${moves} 次移动：盘 ${disk}，${frame.from} → ${frame.to}`,frame.n===1?'执行基例中的直接移动。随后返回上一层，不再产生新的递归调用。':`上面 ${frame.n-1} 个盘子已经移开，现在移动当前子问题最大的盘子 ${disk}。接下来，还要把那 ${frame.n-1} 个小盘移到它上面。`,line,{disk,from:frame.from,to:frame.to});
+  }
+  solve(n,'A','C','B');
+  emit('done','全部完成：递归已经完全返回',`所有 ${n} 个盘子都已到达 C 柱，共移动 ${moves} 次。调用栈清空。T(n) = 2T(n−1) + 1，T(1) = 1，因此 T(n) = 2ⁿ − 1。`,-1);
+  return result;
+}
+function boardMarkup(event){
+  const a=event.move;
+  let s=`<title id="board-title">汉诺塔状态：已移动 ${event.moves} 次</title><desc id="board-description">${['A','B','C'].map(t=>`${t} 柱从下到上：${event.towers[t].join('、')||'空'}`).join('；')}</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10" fill="none" stroke="#bf7045" stroke-width="1.7"/></marker></defs><path d="M34 264H616" stroke="#d8dccd" stroke-width="2"/><ellipse cx="325" cy="264" rx="277" ry="9" fill="#e9ecdf"/>`;
+  for(const t of ['A','B','C']){
+    const x=towersX[t];s+=`<rect x="${x-5}" y="99" width="10" height="159" rx="5" fill="#cfD5c5"/><rect x="${x-85}" y="252" width="170" height="9" rx="4.5" fill="#a5b4a3"/><text x="${x}" y="290" text-anchor="middle" fill="#405f5d" font-size="15" font-weight="600">${t}</text><text x="${x}" y="308" text-anchor="middle" fill="#8b968b" font-size="10">${t==='A'?'初始起点':t==='C'?'最终终点':'初始辅助柱'}</text>`;
+    event.towers[t].forEach((disk,i)=>{const w=46+disk*19,y=229-i*24,fresh=a&&a.disk===disk&&a.to===t;s+=`<g class="disk${fresh?' fresh':''}"><rect x="${x-w/2}" y="${y}" width="${w}" height="21" rx="7" fill="${colors[disk-1]}" stroke="${fresh?'#8e5934':'#ffffff'}" stroke-opacity="${fresh?'1':'.45'}" stroke-width="${fresh?'2':'1'}"/><path d="M${x-w/2+10} ${y+4}H${x+w/2-10}" stroke="white" stroke-opacity=".2"/><text x="${x}" y="${y+15}" fill="#263f45" text-anchor="middle" font-size="12" font-weight="600">${disk}</text></g>`});
+  }
+  if(a){const x1=towersX[a.from],x2=towersX[a.to];s+=`<path d="M${x1} 79Q${(x1+x2)/2} -3 ${x2} 79" stroke="#bf7045" stroke-width="2" fill="none" stroke-dasharray="5 5" marker-end="url(#arrow)"/><rect x="${(x1+x2)/2-48}" y="22" width="96" height="23" rx="11" fill="#fff0d8"/><text x="${(x1+x2)/2}" y="38" text-anchor="middle" fill="#9d633d" font-size="11">盘 ${a.disk}：${a.from} → ${a.to}</text>`}
+  else{s+=`<text x="325" y="42" text-anchor="middle" fill="#8a9b8d" font-size="12" letter-spacing="1">${event.type==='done'?'所有盘子已到达终点':event.type==='ready'?'从一次调用开始':'调用和返回不会直接移动盘子'}</text>`}
+  return s;
+}
+function chainMarkup(event){
+  const stack=event.stack;
+  if(!stack.length)return `<circle cx="230" cy="115" r="33" fill="#edf3e9"/><text x="230" y="123" text-anchor="middle" fill="#578877" font-size="26">${event.type==='done'?'✓':'↘'}</text><text x="230" y="178" text-anchor="middle" fill="#4a6862" font-size="14">${event.type==='done'?'所有调用都已返回':'调用栈等待第一个任务'}</text><text x="230" y="202" text-anchor="middle" fill="#8b978e" font-size="11">${event.type==='done'?'没有待完成的子问题':'下一步：hanoi('+count+', A, C, B)'}</text>`;
+  let s='';const gap=46,top=14;
+  stack.forEach((f,i)=>{
+    const x=12+i*9,y=top+i*gap,w=436-i*18,active=i===stack.length-1,base=f.n===1;
+    const fill=active?(base?'#fff0d8':'#e5efE5'):'#f3f4ed',stroke=active?(base?'#c88747':'#4e8980'):'#dce1d3';
+    if(i)s+=`<path d="M230 ${y-10}V${y-2}m-3 -3 3 3 3 -3" fill="none" stroke="#a9baaa" stroke-width="1.5"/>`;
+    s+=`<rect x="${x}" y="${y}" width="${w}" height="36" rx="7" fill="${fill}" stroke="${stroke}"/><text x="${x+12}" y="${y+23}" fill="${active?'#355c56':'#7e8c80'}" font-family="Consolas,monospace" font-size="12">hanoi(${f.n}, ${f.from}, ${f.to}, ${f.aux})</text><text x="${x+w-12}" y="${y+23}" text-anchor="end" fill="${base?'#aa6e36':'#648276'}" font-size="10">${active?(f.stage==='return'?'即将返回 ↑':base?'基例 n = 1':f.stage==='left'?'① 准备调用':f.stage==='right'?'③ 准备调用':f.stage==='move'?'② 移动大盘':'当前调用'):(f.stage==='left'?'等待第 ① 步':'等待第 ③ 步')}</text>`;
+  });
+  if(stack.length<count)s+=`<text x="230" y="${top+stack.length*gap+15}" text-anchor="middle" fill="#9aa797" font-size="11">${event.type==='return'?'↑ 返回后，上一层接着执行':stack.at(-1).n===1?'到达递归尽头，不再向下调用':'↓ 子问题规模继续减小'}</text>`;
+  return s;
+}
+function breakdown(event){
+  const f=event.stack.at(-1)||{n:count,from:'A',to:'C',aux:'B',stage:''};
+  $('task-label').textContent=event.stack.length?`${f.n} 个盘子 · ${f.from} → ${f.to}`:event.type==='done'?'任务完成':'最外层任务';
+  if(f.n===1){
+    $('left-text').innerHTML='判断 n = 1<small>已抵达最小子问题，无需继续拆解。</small>';
+    $('middle-text').innerHTML=`直接移动一个盘子：${f.from} → ${f.to}<small>这是基例中唯一一次实际移动。</small>`;
+    $('right-text').innerHTML='返回调用者<small>继续执行上一层尚未完成的步骤。</small>';
+  }else{
+    $('left-text').innerHTML=`先搬 ${f.n-1} 个：${f.from} → ${f.aux}<small>借助 ${f.to}，给当前最大的盘子让路。</small>`;
+    $('middle-text').innerHTML=`再搬当前最大的盘子：${f.from} → ${f.to}<small>直接移动一次，不需要递归。</small>`;
+    $('right-text').innerHTML=`最后搬 ${f.n-1} 个：${f.aux} → ${f.to}<small>借助 ${f.from}，把小盘叠回大盘上。</small>`;
+  }
+  const current=f.stage==='left'||f.stage==='base'?'left':f.stage==='move'?'middle':f.stage==='right'||(f.n===1&&f.stage==='return')?'right':'';
+  for(const name of ['left','middle','right'])$('step-'+name).classList.toggle('current',name===current);
+  $('base-note').innerHTML=f.n===1&&event.stack.length?'<strong>已触发基例：n = 1。</strong>递归在这里停止向下展开。移动盘子后返回，上一层才能继续。':'<strong>递归基例：n = 1。</strong>每次调用把 n 减少 1，最终一定到达这里；直接移动，然后返回。';
+}
+function render(){
+  const e=events[index];
+  $('board').innerHTML=boardMarkup(e);$('chain').innerHTML=chainMarkup(e);
+  $('chain').setAttribute('aria-label',e.stack.length?'当前调用链：'+e.stack.map(f=>`搬动 ${f.n} 个盘子，${f.from} 到 ${f.to}`).join('，然后'):'调用栈为空');
+  $('move-count').textContent=`已移动 ${e.moves} / ${2**count-1} 次`;
+  $('depth').textContent=`深度 ${e.stack.length} / ${count}`;
+  const tags={ready:'准备 / READY',call:'进入调用 / CALL',split:'递归分解 / RECURSE',base:'递归基例 / BASE CASE',move:'移动盘子 / MOVE',return:'逐层返回 / RETURN',done:'完成 / DONE'};
+  $('event-tag').textContent=tags[e.type];$('event-title').textContent=e.title;$('event-text').textContent=e.text;
+  $('explanation').className='explanation'+(e.type==='base'||(e.type==='move'&&e.stack.at(-1)?.n===1)?' base':e.type==='return'?' return':'');
+  $('timeline').value=index;$('event-position').textContent=`事件 ${index} / ${events.length-1}`;$('progress-percent').textContent=Math.round(index/(events.length-1)*100)+'%';
+  $('prev').disabled=index===0;$('next').disabled=index===events.length-1;$('next-move').disabled=index===events.length-1;
+  document.querySelectorAll('.code-line').forEach(el=>{el.classList.toggle('active',Number(el.dataset.line)===e.line);el.classList.toggle('base-active',Number(el.dataset.line)===e.line&&e.stack.at(-1)?.n===1)});
+  breakdown(e);
+}
+function stop(){playing=false;clearTimeout(timer);timer=null;$('play').textContent='▶ 自动演示';$('play').setAttribute('aria-pressed','false')}
+function goto(value){index=Math.max(0,Math.min(events.length-1,value));render();if(index===events.length-1)stop()}
+function schedule(){timer=setTimeout(()=>{if(!playing)return;goto(index+1);if(playing)schedule()},Number($('speed').value))}
+function toggle(){if(playing){stop();return}if(index===events.length-1)goto(0);playing=true;$('play').textContent='Ⅱ 暂停演示';$('play').setAttribute('aria-pressed','true');schedule()}
+function reset(){stop();index=0;count=Number($('disk-count').value);events=build(count);$('count-out').value=count;$('power').textContent=count;$('minimum').textContent=2**count-1;$('timeline').max=events.length-1;render()}
+$('disk-count').addEventListener('input',reset);
+$('reset').addEventListener('click',()=>{stop();goto(0)});
+$('prev').addEventListener('click',()=>{stop();goto(index-1)});
+$('next').addEventListener('click',()=>{stop();goto(index+1)});
+$('next-move').addEventListener('click',()=>{stop();let i=index+1;while(i<events.length-1&&events[i].type!=='move')i++;goto(i)});
+$('timeline').addEventListener('input',()=>{stop();goto(Number($('timeline').value))});
+$('play').addEventListener('click',toggle);
+$('speed').addEventListener('change',()=>{if(playing){clearTimeout(timer);schedule()}});
+window.addEventListener('keydown',e=>{if(['INPUT','SELECT','TEXTAREA','BUTTON'].includes(document.activeElement.tagName)||e.ctrlKey||e.altKey||e.metaKey)return;if(e.code==='Space'){e.preventDefault();toggle()}else if(e.key==='ArrowRight'){e.preventDefault();stop();goto(index+1)}else if(e.key==='ArrowLeft'){e.preventDefault();stop();goto(index-1)}});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)stop()});
+reset();
+})();
+</script>
+</body>
+</html>
